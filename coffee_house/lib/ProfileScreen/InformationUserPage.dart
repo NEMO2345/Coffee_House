@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, deprecated_member_use
 
+import 'package:coffee_house/ProfileScreen/ChangePassword.dart';
 import 'package:flutter/material.dart';
 
 import '../Configs.dart';
@@ -81,6 +82,10 @@ class InformationUserPage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ChangePassword()),
+                      );
                     },
                     child: Text(
                       'Đổi mật khẩu',
