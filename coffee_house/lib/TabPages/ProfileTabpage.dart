@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../AllScreen/LoginScreen.dart';
+import '../ProfileScreen/InformationUserPage.dart';
 
 class ProfileTabPage extends StatelessWidget {
   const ProfileTabPage({Key? key}) : super(key: key);
@@ -18,7 +19,10 @@ class ProfileTabPage extends StatelessWidget {
             SizedBox(height: 50),
             InkWell(
               onTap: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InformationUserPage()),
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -49,6 +53,10 @@ class ProfileTabPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InformationUserPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
