@@ -29,6 +29,8 @@ dependencies:
   fluttertoast: ^8.2.2
   provider: ^6.0.5
   google_sign_in: ^6.1.6
+  url_launcher: ^6.0.9
+  google_maps_flutter: ^2.5.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,41 @@ flutter:
     - images/call.png
     - images/gear.png
     - images/astronaut.png
+    - images/man.png
+    - images/bell.png
+    - images/banner.webp
+    - images/bannermini1.jpg
+    - images/bannermini2.jpg
+    - images/bannermini3.jpg
+    - images/bn1.png
+    - images/bn2.png
+    - images/bn3.png
+    - images/ppl1.png
+    - images/ppl2.png
+    - images/ppl3.png
+    - images/ppl4.png
+    - images/ppl5.png
+    - images/ppl6.png
+    - images/la1.png
+    - images/la2.png
+    - images/la3.png
+    - images/la4.png
+    - images/la5.png
+    - images/la6.png
+    - images/la7.png
+    - images/la8.png
+    - images/la9.png
+    - images/la10.png
+    - images/la11.png
+    - images/la12.png
+    - images/lp1.png
+    - images/lp2.png
+    - images/lp3.png
+    - images/lp4.png
+    - images/lp5.png
+    - images/lp6.png
+    - images/lp7.png
+
 
 
       # An image asset can refer to one or more resolution-specific "variants", see
