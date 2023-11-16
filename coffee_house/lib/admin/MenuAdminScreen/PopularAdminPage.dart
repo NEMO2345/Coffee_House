@@ -39,7 +39,7 @@ class _PopularPageState extends State<PopularAdminPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.remove),
+                icon: Icon(Icons.delete),
                 onPressed: () {
                   setState(() {
                     int? quantity = _quantityMap[itemId];
@@ -49,22 +49,10 @@ class _PopularPageState extends State<PopularAdminPage> {
                   });
                 },
               ),
-              Text(_quantityMap[itemId].toString()),
               IconButton(
-                icon: Icon(Icons.add),
+                icon: Icon(Icons.edit),
                 onPressed: () {
-                  setState(() {
-                    int? quantity = _quantityMap[itemId];
-                    if (quantity != null) {
-                      _quantityMap[itemId] = quantity + 1;
-                    }
-                  });
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.add_shopping_cart),
-                onPressed: () {
-
+                  // Xử lý sự kiện chỉnh sửa số lượng sản phẩm ở đây
                 },
               ),
             ],

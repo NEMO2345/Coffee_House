@@ -31,6 +31,7 @@ dependencies:
   google_sign_in: ^6.1.6
   url_launcher: ^6.0.9
   google_maps_flutter: ^2.5.0
+  flutter_carousel_slider: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
     - images/man.png
     - images/bell.png
     - images/banner.webp
+    - images/banner2.jpg
     - images/bannermini1.jpg
     - images/bannermini2.jpg
     - images/bannermini3.jpg
@@ -104,6 +106,13 @@ flutter:
     - images/lp5.png
     - images/lp6.png
     - images/lp7.png
+    - images/bannerBig2.jpg
+    - images/bannerBig1.jpg
+    - images/house1.png
+    - images/house2.png
+    - images/house3.png
+    - images/house4.png
+
 
 
 

@@ -20,10 +20,13 @@ class _HomeTabPageState extends State<HomeTabPageUser>
 
   final List<News> newsList = [
     News(
-      image: 'assets/images/bannermini1.jpg',
+      image: 'images/bannermini1.jpg',
     ),
     News(
-      image: 'assets/images/bannermini1.jpg',
+      image: 'images/bannermini2.jpg',
+    ),
+    News(
+      image: 'images/bannermini3.jpg',
     ),
   ];
 
@@ -49,146 +52,81 @@ class _HomeTabPageState extends State<HomeTabPageUser>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          children: [
-            const Divider(
-              height: 30.0,
-              thickness: 20.0,
-            ),
-            Row(
-              children: [
-                IconButton(
-                  icon: Image(
-                    image: AssetImage('images/man.png'),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => InformationUserPage()),
-                    );
-                  },
+      body: Column(
+        children: [
+          const Divider(
+            height: 30.0,
+            thickness: 20.0,
+          ),
+          Row(
+            children: [
+              IconButton(
+                icon: Image(
+                  image: AssetImage('images/man.png'),
                 ),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(left: 2.0, right: 2.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.amber),
-                          borderRadius: BorderRadius.circular(27.0),
-                        ),
-                        child: TextButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.all(5),
-                            ),
-                          ),
-                          onPressed: name.isEmpty
-                              ? () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, LoginUserScreen.idScreen, (route) => false);
-                          }
-                              : null,
-                          child: Text(name.isEmpty ? "Đăng nhập" : name),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                IconButton(
-                  icon: Image(
-                    image: AssetImage('images/bell.png'),
-                  ),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            const Divider(
-              height: 15.0,
-              thickness: 2.0,
-            ),
-            Expanded(
-              child: Container(
-                color: Colors.grey,
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => InformationUserPage()),
+                  );
+                },
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 1.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Ưu đãi đặt biệt từ THE COFFEE',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(width: 8.0),
-                            ],
+                    Container(
+                      padding: const EdgeInsets.only(left: 2.0, right: 2.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.amber),
+                        borderRadius: BorderRadius.circular(27.0),
+                      ),
+                      child: TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all<EdgeInsets>(
+                            const EdgeInsets.all(5),
                           ),
-                          SizedBox(height: 3.0),
-                          Container(
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            // child: ClipRRect(
-                            //   borderRadius: BorderRadius.circular(8.0),
-                            //   child: AnimatedBuilder(
-                            //     animation: _animationController!,
-                            //     builder: (BuildContext context, Widget? child) {
-                            //       return Stack(
-                            //         children: [
-                            //           Positioned(
-                            //             left: -_slideAnimation!.value *
-                            //                 MediaQuery.of(context).size.width,
-                            //             child: Image(
-                            //               image: AssetImage('images/banner1.webp'),
-                            //               width: MediaQuery.of(context).size.width,
-                            //               height: 200.0,
-                            //               fit: BoxFit.cover,
-                            //             ),
-                            //           ),
-                            //           Positioned(
-                            //             left: (1 - _slideAnimation!.value) *
-                            //                 MediaQuery.of(context).size.width,
-                            //             child: Image(
-                            //               image: AssetImage('images/banner2.webp'),
-                            //               width: MediaQuery.of(context).size.width,
-                            //               height: 200.0,
-                            //               fit: BoxFit.cover,
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       );
-                            //     },
-                            //   ),
-                            // ),
-                          ),
-                        ],
+                        ),
+                        onPressed: name.isEmpty
+                            ? () {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, LoginUserScreen.idScreen, (route) => false);
+                        }
+                            : null,
+                        child: Text(name.isEmpty ? "Đăng nhập" : name),
                       ),
                     ),
-                    SizedBox(height: 24.0),
-                    Column(
+                  ],
+                ),
+              ),
+              IconButton(
+                icon: Image(
+                  image: AssetImage('images/bell.png'),
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
+          const Divider(
+            height: 15.0,
+            thickness: 2.0,
+          ),
+          Expanded(
+            child: Container(
+              color: Colors.grey,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1.0),
+                    child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'Tin Tức',
+                              'Ưu đãi đặt biệt từ THE COFFEE',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18.0,
@@ -199,53 +137,189 @@ class _HomeTabPageState extends State<HomeTabPageUser>
                           ],
                         ),
                         SizedBox(height: 3.0),
-                        // Nội dung tin tức
-                        Container(
-                          height: 200.0,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: newsList.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  width: 200.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.5),
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
+                        LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            return Container(
+                              height: 200.0,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 2),
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Image(
-                                        image: AssetImage(newsList[index].image),
-                                        width: 200.0,
-                                        height: 120.0,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ],
-                                  ),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: AnimatedBuilder(
+                                  animation: _animationController!,
+                                  builder: (BuildContext context, Widget? child) {
+                                    return Stack(
+                                      children: [
+                                        Positioned(
+                                          left: -_slideAnimation!.value * MediaQuery.of(context).size.width,
+                                          child: Image(
+                                            image: AssetImage('images/banner.webp'),
+                                            width: MediaQuery.of(context).size.width,
+                                            height: 200.0,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: (1 - _slideAnimation!.value) *
+                                              MediaQuery.of(context).size.width,
+                                          child: Image(
+                                            image: AssetImage('images/banner2.jpg'),
+                                            width: MediaQuery.of(context).size.width,
+                                            height: 200.0,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 24.0),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Tin Tức',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 8.0),
+                        ],
+                      ),
+                      SizedBox(height: 3.0),
+                      // Nội dung tin tức
+                      Container(
+                        height: 200.0,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: newsList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: 200.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 200.0,
+                                      height: 120.0,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(newsList[index].image),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 24.0),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Dành cho bạn ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 8.0),
+                        ],
+                      ),
+                      SizedBox(height: 3.0),
+                      // Nội dung tin tức
+                      Container(
+                        height: 200.0,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: newsList.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: 200.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 200.0,
+                                      height: 170.0,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(newsList[index].image),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-           ],
-         ),
+          ),
+        ],
+      ),
     );
   }
   String getCurrentUserId() {

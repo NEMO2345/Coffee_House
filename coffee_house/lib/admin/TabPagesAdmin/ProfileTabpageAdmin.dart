@@ -75,7 +75,7 @@ class ProfileTabPageAdmin extends StatelessWidget {
                   Image.asset('images/farmer.png'),
                   SizedBox(width: 16),
                   Text(
-                    'Thông tin khách hàng',
+                    'Thông tin nhân viên',
                     style: TextStyle(fontSize: 20,fontFamily: "Brand Bold"),
                     textAlign: TextAlign.left,
                   ),

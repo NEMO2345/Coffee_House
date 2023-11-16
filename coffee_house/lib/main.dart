@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, override_on_non_overriding_member, equal_keys_in_map
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, override_on_non_overriding_member, equal_keys_in_map, library_private_types_in_public_api, deprecated_member_use, prefer_final_fields
 
+import 'dart:async';
 import 'dart:io';
 import 'package:coffee_house/admin/AllAdminScreen/LoginAdminScreen.dart';
 import 'package:coffee_house/admin/AllAdminScreen/MainAdminScreen.dart';
@@ -11,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:provider/provider.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -59,32 +59,146 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+  Timer? _timer;
+  int _imageCount = 4;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _stopTimer();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      if (_currentPage < _imageCount - 1) { // Kiểm tra nếu là trang cuối cùng
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Choose Login'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(MainUserScreen.idScreen);
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentPage = index;
+                });
               },
-              child: Text('Login as User'),
+              children: List.generate(_imageCount, (index) {
+                return Image.asset(
+                  'images/house${index + 1}.png',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                );
+              }),
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(MainAdminScreen.idScreen);
-              },
-              child: Text('Login as Admin'),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List<Widget>.generate(_imageCount, (int index) {
+              return AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                width: _currentPage == index ? 16 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentPage == index ? Colors.blue : Colors.grey,
+                  border: Border.all(color: Colors.blue),
+                ),
+              );
+            }),
+          ),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(MainUserScreen.idScreen);
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  onPrimary: Colors.green,
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                    side: BorderSide(
+                      color: Colors.orange,
+                      width: 2,
+                    ),
+                  ),
+                  backgroundColor: Colors.white,
+                ),
+                child: Text(
+                  'Người dùng',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(MainAdminScreen.idScreen);
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  onPrimary: Colors.green,
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                    side: BorderSide(
+                      color: Colors.orange,
+                      width: 2,
+                    ),
+                  ),
+                  backgroundColor: Colors.white,
+                ),
+                child: Text(
+                  'Quản Trị Viên',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

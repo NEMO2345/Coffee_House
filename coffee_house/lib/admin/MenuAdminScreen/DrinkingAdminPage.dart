@@ -39,7 +39,7 @@ class _DrinKingPageState extends State<DrinkingAdminPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.remove),
+                icon: Icon(Icons.delete),
                 onPressed: () {
                   setState(() {
                     int? quantity = _quantityMap[itemId];
@@ -49,20 +49,8 @@ class _DrinKingPageState extends State<DrinkingAdminPage> {
                   });
                 },
               ),
-              Text(_quantityMap[itemId].toString()),
               IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () {
-                  setState(() {
-                    int? quantity = _quantityMap[itemId];
-                    if (quantity != null) {
-                      _quantityMap[itemId] = quantity + 1;
-                    }
-                  });
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.add_shopping_cart),
+                icon: Icon(Icons.edit),
                 onPressed: () {
                 },
               ),
