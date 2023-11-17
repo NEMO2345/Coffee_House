@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, file_names, unused_field, deprecated_member_use
 import 'package:coffee_house/admin/AllAdminScreen/RegisterAdminScreen.dart';
 import 'package:coffee_house/admin/AllAdminWidgets/AddDrinkPage.dart';
+import 'package:coffee_house/admin/AllAdminWidgets/EditDrinkPage.dart';
 import 'package:coffee_house/admin/ModelsAdmin/PDr-Admin.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -100,7 +101,7 @@ class _DrinkingAdminPageState extends State<DrinkingAdminPage> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) { // ignore: unnecessary_non_null_assertion
       if (_showDeleteDialog) {
         _showConfirmationDialog(_selectedDrink!);
         _showDeleteDialog = false;
@@ -123,7 +124,10 @@ class _DrinkingAdminPageState extends State<DrinkingAdminPage> {
             children: [
               IconButton(
                 onPressed: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EditDrinkPage(drink: drink)),
+                  );
                 },
                 icon: Icon(Icons.edit),
               ),
