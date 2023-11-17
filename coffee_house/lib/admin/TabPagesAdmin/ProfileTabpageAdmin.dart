@@ -105,7 +105,7 @@ class ProfileTabPageAdmin extends StatelessWidget {
                   Image.asset('images/history.png'),
                   SizedBox(width: 16),
                   Text(
-                    'Lịch sử mua hàng',
+                    'Lịch sử bán hàng',
                     style: TextStyle(fontSize: 20,fontFamily: "Brand Bold"),
                     textAlign: TextAlign.left,
                   ),

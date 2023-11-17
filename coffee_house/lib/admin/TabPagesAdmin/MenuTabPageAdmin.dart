@@ -1,12 +1,30 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
 
 import 'package:coffee_house/admin/MenuAdminScreen/DrinkingAdminPage.dart';
 import 'package:coffee_house/admin/MenuAdminScreen/FootAdminPage.dart';
 import 'package:coffee_house/admin/MenuAdminScreen/PopularAdminPage.dart';
 import 'package:flutter/material.dart';
+import 'package:coffee_house/admin/ModelsAdmin/PDr-Admin.dart';
 
-class MenuTabPageAdmin extends StatelessWidget {
+class MenuTabPageAdmin extends StatefulWidget {
   const MenuTabPageAdmin({Key? key}) : super(key: key);
+
+  @override
+  _MenuTabPageAdminState createState() => _MenuTabPageAdminState();
+}
+
+class _MenuTabPageAdminState extends State<MenuTabPageAdmin> {
+  List<Drink> drinks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // getDrinksFromFirebase().then((drinksList) {
+    //   setState(() {
+    //     drinks = drinksList;
+    //   });
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +32,10 @@ class MenuTabPageAdmin extends StatelessWidget {
       length: 3,
       child: Column(
         children: [
-      Divider(
+          Divider(
             height: 30.0,
             thickness: 20.0,
-           ),
+          ),
           TabBar(
             labelStyle: TextStyle(
               fontSize: 16,
@@ -36,9 +54,9 @@ class MenuTabPageAdmin extends StatelessWidget {
           Expanded(
             child: TabBarView(
               children: [
-                PopularAdminPage(),
+                //PopularAdminPage(),
                 DrinkingAdminPage(),
-                FootAdminPage(),
+                //FootAdminPage(),
               ],
             ),
           ),

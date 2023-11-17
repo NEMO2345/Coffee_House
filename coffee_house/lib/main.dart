@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -22,6 +23,8 @@ void main() async {
 
 DatabaseReference usersRef = FirebaseDatabase.instance.ref().child("users");
 DatabaseReference adminsRef = FirebaseDatabase.instance.ref().child("admins");
+DatabaseReference drinksRef = FirebaseDatabase.instance.reference().child('product').child('drinks');
+final FirebaseStorage storage = FirebaseStorage.instance;
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key});
