@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, file_names, deprecated_member_use
 
+import 'package:coffee_house/main.dart';
 import 'package:coffee_house/user/AllUserScreen/LoginUserScreen.dart';
 import 'package:coffee_house/user/ConfigsUser.dart';
 import 'package:coffee_house/user/ProfileUserScreen/InformationUserPageUser.dart';
@@ -202,7 +203,7 @@ class ProfileTabPageUser extends StatelessWidget {
                 FirebaseAuth.instance.signOut();
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginUserScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                       (route) => false,
                 );
               },

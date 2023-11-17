@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, file_names, unused_field, deprecated_member_use
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, file_names, unused_field, deprecated_member_use, avoid_unnecessary_containers
 import 'package:coffee_house/admin/AllAdminScreen/RegisterAdminScreen.dart';
 import 'package:coffee_house/admin/AllAdminWidgets/AddFoodPage.dart';
+import 'package:coffee_house/admin/AllAdminWidgets/DetailPage.dart';
 import 'package:coffee_house/admin/AllAdminWidgets/EditFoodPage.dart';
 import 'package:coffee_house/admin/ModelsAdmin/PDr-Admin.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -115,32 +116,49 @@ class _FoodAdminPageState extends State<FootAdminPage> {
             itemCount: _foods.length,
             itemBuilder: (context, index) {
               final drink = _foods[index];
-              return ListTile(
-                title: Text(drink.name),
-                subtitle: Text(drink.description),
-                leading: Image.network(drink.image),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => EditFoodPage(food: drink)),
-                        );
-                      },
-                      icon: Icon(Icons.edit),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailPage(product: drink)),
+                  );
+                },
+                child: Container(
+                  child: ListTile(
+                    title: Text(drink.name),
+                    subtitle: Text(drink.description),
+                    leading: Image.network(
+                      drink.image,
+                      width: 50,
+                      height: 50,
                     ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _showDeleteDialog = true;
-                          _selectedDrink = drink;
-                        });
-                      },
-                      icon: Icon(Icons.delete,color: Colors.red,),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(drink.price.toStringAsFixed(2)),
+                        Text("VND"),
+                        SizedBox(width: 10),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => EditFoodPage(food: drink)),
+                            );
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _showDeleteDialog = true;
+                              _selectedDrink = drink;
+                            });
+                          },
+                          icon: Icon(Icons.delete, color: Colors.red),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               );
             },

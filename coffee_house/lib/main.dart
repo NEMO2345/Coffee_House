@@ -16,7 +16,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Add this line to ignore certificate validation
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
@@ -90,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
-      if (_currentPage < _imageCount - 1) { // Kiểm tra nếu là trang cuối cùng
+      if (_currentPage < _imageCount - 1) {
         _currentPage++;
       } else {
         _currentPage = 0;

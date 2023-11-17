@@ -1,6 +1,7 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, file_names, unused_field, deprecated_member_use, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, file_names, unused_field, deprecated_member_use, prefer_final_fields, avoid_unnecessary_containers
 import 'package:coffee_house/admin/AllAdminScreen/RegisterAdminScreen.dart';
 import 'package:coffee_house/admin/AllAdminWidgets/AddPopularPage.dart';
+import 'package:coffee_house/admin/AllAdminWidgets/DetailPage.dart';
 import 'package:coffee_house/admin/AllAdminWidgets/EditPopularPage.dart';
 import 'package:coffee_house/admin/ModelsAdmin/PDr-Admin.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -115,32 +116,49 @@ class _PopularAdminPageState extends State<PopularAdminPage> {
             itemCount: _pps.length,
             itemBuilder: (context, index) {
               final pp = _pps[index];
-              return ListTile(
-                title: Text(pp.name),
-                subtitle: Text(pp.description),
-                leading: Image.network(pp.image),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => EditPopularPage(pp: pp)),
-                        );
-                      },
-                      icon: Icon(Icons.edit),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailPage(product: pp)),
+                  );
+                },
+                child: Container(
+                  child: ListTile(
+                    title: Text(pp.name),
+                    subtitle: Text(pp.description),
+                    leading: Image.network(
+                      pp.image,
+                      width: 50,
+                      height: 50,
                     ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _showDeleteDialog = true;
-                          _selectedDrink = pp;
-                        });
-                      },
-                      icon: Icon(Icons.delete,color: Colors.red,),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(pp.price.toStringAsFixed(2)),
+                        Text("VND"),
+                        SizedBox(width: 10),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => EditPopularPage(pp: pp)),
+                            );
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _showDeleteDialog = true;
+                              _selectedDrink = pp;
+                            });
+                          },
+                          icon: Icon(Icons.delete, color: Colors.red),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               );
             },
