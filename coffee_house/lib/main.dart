@@ -24,6 +24,8 @@ void main() async {
 DatabaseReference usersRef = FirebaseDatabase.instance.ref().child("users");
 DatabaseReference adminsRef = FirebaseDatabase.instance.ref().child("admins");
 DatabaseReference drinksRef = FirebaseDatabase.instance.reference().child('product').child('drinks');
+DatabaseReference foodsRef = FirebaseDatabase.instance.reference().child('product').child('foods');
+DatabaseReference ppsRef = FirebaseDatabase.instance.reference().child('product').child('populars');
 final FirebaseStorage storage = FirebaseStorage.instance;
 
 class MyApp extends StatelessWidget {

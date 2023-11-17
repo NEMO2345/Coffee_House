@@ -54,9 +54,9 @@ class _MenuTabPageAdminState extends State<MenuTabPageAdmin> {
           Expanded(
             child: TabBarView(
               children: [
-                //PopularAdminPage(),
+                PopularAdminPage(),
                 DrinkingAdminPage(),
-                //FootAdminPage(),
+                FootAdminPage(),
               ],
             ),
           ),
