@@ -3,32 +3,111 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class StoreTabPageUser extends StatelessWidget {
-  const StoreTabPageUser({Key? key}) : super(key: key);
+  Future<List<Marker>> createMarkers() async {
+    final List<Marker> markers = [
+      Marker(
+        markerId: MarkerId('storeLocation1'),
+        position: LatLng(10.8231, 106.6297),
+        infoWindow: InfoWindow(title: 'Store Location 1'),
+        icon: await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(1000, 1000)),
+          'images/storemap.png',
+        ),
+      ),
+      Marker(
+        markerId: MarkerId('storeLocation2'),
+        position: LatLng(10.8232, 106.6298),
+        infoWindow: InfoWindow(title: 'Store Location 2'),
+        icon: await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(48, 48)),
+          'images/storemap.png',
+        ),
+      ),
+      Marker(
+        markerId: MarkerId('storeLocation2'),
+        position: LatLng(10.8232, 106.6298),
+        infoWindow: InfoWindow(title: 'Store Location 2'),
+        icon: await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(48, 48)),
+          'images/storemap.png',
+        ),
+      ),
+      Marker(
+        markerId: MarkerId('storeLocation3'),
+        position: LatLng(10.8233, 106.6299),
+        infoWindow: InfoWindow(title: 'Store Location 2'),
+        icon: await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(48, 48)),
+          'images/storemap.png',
+        ),
+      ),
+      Marker(
+        markerId: MarkerId('storeLocation4'),
+        position: LatLng(10.8230, 106.6296),
+        infoWindow: InfoWindow(title: 'Store Location 2'),
+        icon: await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(48, 48)),
+          'images/storemap.png',
+        ),
+      ),
+      Marker(
+        markerId: MarkerId('storeLocation5'),
+        position: LatLng(10.8231, 106.6296),
+        infoWindow: InfoWindow(title: 'Store Location 2'),
+        icon: await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(48, 48)),
+          'images/storemap.png',
+        ),
+      ),
+      Marker(
+        markerId: MarkerId('storeLocation6'),
+        position: LatLng(10.8230, 106.6298),
+        infoWindow: InfoWindow(title: 'Store Location 2'),
+        icon: await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(48, 48)),
+          'images/storemap.png',
+        ),
+      ),
+
+    ];
+
+    return markers;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: LatLng(37.422, -122.084),
-              zoom: 15.0,
-            ),
-            markers: {
-              Marker(
-                markerId: MarkerId('storeLocation'),
-                position: LatLng(37.422, -122.084),
-                infoWindow: InfoWindow(title: 'Store Location'),
+    return FutureBuilder<List<Marker>>(
+      future: createMarkers(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final List<Marker> markers = snapshot.data!;
+          return Column(
+            children: [
+              Expanded(
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(10.8231, 106.6297),
+                    zoom: 15.0,
+                  ),
+                  markers: Set<Marker>.from(markers),
+                ),
               ),
-            },
-          ),
-        ),
-        Divider(
-          height: 2.0,
-          thickness: 2.0,
-        ),
-      ],
+              Divider(
+                height: 2.0,
+                thickness: 2.0,
+              ),
+            ],
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Đã xảy ra lỗi'),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }

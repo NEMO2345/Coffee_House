@@ -14,12 +14,15 @@ class ContactAddressPage extends StatefulWidget {
 class _ContactAddressPageState extends State<ContactAddressPage> {
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+
 
   @override
   void initState() {
     super.initState();
     addressController.text = "";
     phoneNumberController.text = "";
+    nameController.text = "";
 
     usersRef
         .child(currentfirebaseUser!.uid)
@@ -31,6 +34,7 @@ class _ContactAddressPageState extends State<ContactAddressPage> {
         setState(() {
           Map<dynamic, dynamic>? data = snapshot.value as Map<dynamic, dynamic>?;
           if (data != null) {
+            nameController.text = data["name"] ?? "";
             addressController.text = data["address"] ?? "";
             phoneNumberController.text = data["phoneNumber"] ?? "";
           }
@@ -43,6 +47,7 @@ class _ContactAddressPageState extends State<ContactAddressPage> {
     try {
       String address = addressController.text;
       String phoneNumber = phoneNumberController.text;
+      String name = nameController.text;
 
       await usersRef
           .child(currentfirebaseUser!.uid)
@@ -50,6 +55,7 @@ class _ContactAddressPageState extends State<ContactAddressPage> {
           .set({
         "address": address,
         "phoneNumber": phoneNumber,
+        "name" : name,
       });
 
       displayToastMessage("Đã lưu thông tin liên hệ", context);
@@ -57,6 +63,7 @@ class _ContactAddressPageState extends State<ContactAddressPage> {
       setState(() {
         addressController.text = address;
         phoneNumberController.text = phoneNumber;
+        nameController.text = name;
       });
     } catch (error) {
       displayToastMessage("Lỗi: $error", context);
@@ -82,6 +89,13 @@ class _ContactAddressPageState extends State<ContactAddressPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                labelText: 'Tên khách hàng',
+              ),
+            ),
+            SizedBox(height: 20),
             TextField(
               controller: addressController,
               decoration: InputDecoration(

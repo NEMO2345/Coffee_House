@@ -2,6 +2,9 @@
 
 import 'package:coffee_house/admin/AllAdminScreen/RegisterAdminScreen.dart';
 import 'package:coffee_house/main.dart';
+import 'package:coffee_house/user/AllUserScreen/MainUserScreen.dart';
+import 'package:coffee_house/user/MenuUserScreen/PopularUserPage.dart';
+import 'package:coffee_house/user/ModelsUser/Users-User.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -19,6 +22,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
   int totalPrice = 0;
   String address = "";
   String phoneNumber = "";
+  String name = "";
+
 
   @override
   void initState() {
@@ -35,6 +40,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         setState(() {
           address = data['address'] ?? '';
           phoneNumber = data['phoneNumber'] ?? '';
+          name = data['name'] ?? '';
         });
       }
     } catch (error) {
@@ -66,6 +72,35 @@ class _CheckoutPageState extends State<CheckoutPage> {
     } catch (error) {
       displayToastMessage("$error", context);
     }
+  }
+  void handlePayment(){
+    sendOrderToAdmin();
+    displayToastMessage("Đặt đơn thành công!!", context);
+    Navigator.pushNamedAndRemoveUntil(context, MainUserScreen.idScreen, (route) => false);
+  }
+  void sendOrderToAdmin()  {
+    List<Map<String, dynamic>> orderList = [];
+
+    cartItems.forEach((item) {
+      Map<String, dynamic> productInfo = {
+        'Tên sản phẩm': item.name,
+        'Giá tiền': item.price,
+        'Số lượng':item.quantity,
+      };
+      orderList.add(productInfo);
+    });
+
+    Map<String, dynamic> orderInfo = {
+      'Tên khách hàng': name,
+      'Số điện thoại': phoneNumber,
+      'Địa chỉ': address,
+      'Thông tin sản phẩm': orderList,
+    };
+
+    int totalAmount = cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
+    orderInfo['Tổng tiền'] = totalAmount;
+    adminOrder.set(orderInfo);
+    usersCartRef.remove();
   }
   @override
   Widget build(BuildContext context) {
@@ -161,6 +196,20 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             ],
           ),
+          Text(
+            'Tên :',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            name,
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
           SizedBox(height: 20),
           Text(
             'Địa chỉ:',
@@ -193,7 +242,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ),
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              handlePayment();
+            },
             style: ElevatedButton.styleFrom(
               primary: Colors.transparent,
               onPrimary: Colors.green,
