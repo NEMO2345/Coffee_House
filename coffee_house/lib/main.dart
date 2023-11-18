@@ -8,6 +8,7 @@ import 'package:coffee_house/admin/AllAdminScreen/RegisterAdminScreen.dart';
 import 'package:coffee_house/user/AllUserScreen/LoginUserScreen.dart';
 import 'package:coffee_house/user/AllUserScreen/MainUserScreen.dart';
 import 'package:coffee_house/user/AllUserScreen/RegisterUserScreen.dart';
+import 'package:coffee_house/user/ConfigsUser.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -25,6 +26,9 @@ DatabaseReference adminsRef = FirebaseDatabase.instance.ref().child("admins");
 DatabaseReference drinksRef = FirebaseDatabase.instance.reference().child('product').child('drinks');
 DatabaseReference foodsRef = FirebaseDatabase.instance.reference().child('product').child('foods');
 DatabaseReference ppsRef = FirebaseDatabase.instance.reference().child('product').child('populars');
+DatabaseReference usersCartRef = FirebaseDatabase.instance.ref().child("users").child(currentfirebaseUser!.uid).child("cart");
+DatabaseReference usersContact = FirebaseDatabase.instance.ref().child("users").child(currentfirebaseUser!.uid).child("contactInfo");
+
 final FirebaseStorage storage = FirebaseStorage.instance;
 
 class MyApp extends StatelessWidget {

@@ -37,13 +37,11 @@ class _AddFoodPageState extends State<AddFoodPage> {
       return;
     }
 
-    // Upload image to Firebase Storage
     String imageName = DateTime.now().millisecondsSinceEpoch.toString();
     Reference ref = storage.ref().child('images/$imageName');
     await ref.putFile(_image!);
     String imageUrl = await ref.getDownloadURL();
 
-    // Save product data to database
     foodsRef.push().set({
       'name': _nameController.text,
       'description': _descriptionController.text,
@@ -58,7 +56,6 @@ class _AddFoodPageState extends State<AddFoodPage> {
     _priceController.clear();
     _quantityController.clear();
 
-    // Show success message
     displayToastMessage("Thêm thành công.", context);
     Navigator.pop(context);
   }

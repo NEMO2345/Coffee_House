@@ -3,6 +3,7 @@
 import 'package:coffee_house/main.dart';
 import 'package:coffee_house/user/AllUserScreen/LoginUserScreen.dart';
 import 'package:coffee_house/user/ConfigsUser.dart';
+import 'package:coffee_house/user/ProfileUserScreen/ContactAddressPage.dart';
 import 'package:coffee_house/user/ProfileUserScreen/InformationUserPageUser.dart';
 import 'package:coffee_house/user/ProfileUserScreen/PurchaseHistoryPageUser.dart';
 import 'package:coffee_house/user/ProfileUserScreen/VoucherPageUser.dart';
@@ -146,7 +147,10 @@ class ProfileTabPageUser extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactAddressPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,

@@ -6,5 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 User? currentfirebaseUser;
 Users? userInformation;
+late final Function(int) updateTotalCartQuantity;
+int totalQuantity = 0;
 
 String name = "";
