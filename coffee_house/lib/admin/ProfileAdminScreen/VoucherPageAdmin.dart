@@ -68,8 +68,13 @@ class _VoucherPageState extends State<VoucherPage> {
                       itemCount: vouchers.length,
                       itemBuilder: (context, index) {
                         VoucherCard voucher = vouchers[index];
-                        return ListTile(
-                          title: Text('Mã: ${voucher.code} - Giảm giá: ${voucher.discount}%'),
+                        return Card(
+                          elevation: 3,
+                          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                          child: ListTile(
+                            title: Text('Mã: ${voucher.code}'),
+                            subtitle: Text('Giảm giá: ${voucher.discount}%'),
+                          ),
                         );
                       },
                     );

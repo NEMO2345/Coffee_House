@@ -34,6 +34,8 @@ DatabaseReference usersContact = FirebaseDatabase.instance.ref().child("users").
 DatabaseReference adminOrder = FirebaseDatabase.instance.ref().child("Orders");
 DatabaseReference Order = FirebaseDatabase.instance.ref();
 DatabaseReference Voucher = FirebaseDatabase.instance.ref().child("vouchers");
+DatabaseReference usersRefVoucher = FirebaseDatabase.instance.ref().child("users").child(currentfirebaseUser!.uid).child("voucher");
+
 
 final FirebaseStorage storage = FirebaseStorage.instance;
 
