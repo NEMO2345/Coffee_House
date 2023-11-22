@@ -104,8 +104,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
     int totalAmount =
     cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
     orderInfo['Tổng tiền'] = totalAmount;
+
     DatabaseReference newOrderRef = adminOrder.child(orderId!);
-    DatabaseReference newOrderRefUser = usersRef.child(currentfirebaseUser!.uid).child("HistoryOrders").child(orderId!);
+    DatabaseReference newOrderRefUser = usersRef.child(currentfirebaseUser!.uid).child("HistoryOrders").child(orderId);
      newOrderRef.set(orderInfo);
      newOrderRefUser.set(orderInfo);
     usersCartRef.remove();

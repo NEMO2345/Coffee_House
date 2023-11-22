@@ -9,6 +9,7 @@ import 'package:coffee_house/user/AllUserScreen/LoginUserScreen.dart';
 import 'package:coffee_house/user/AllUserScreen/MainUserScreen.dart';
 import 'package:coffee_house/user/AllUserScreen/RegisterUserScreen.dart';
 import 'package:coffee_house/user/ConfigsUser.dart';
+import 'package:coffee_house/user/DataHandler/appData.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         Provider<DatabaseReference>(
           create: (BuildContext context) => usersRef,
         ),
+        ChangeNotifierProvider(create: (BuildContext context) => AppData()),
       ],
       child: MaterialApp(
         title: 'Coffee house',
