@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, file_names
 
 import 'package:coffee_house/OrderItems.dart';
-import 'package:coffee_house/admin/ConfigsAdmin.dart';
 import 'package:coffee_house/admin/ProfileAdminScreen/HistoryItems.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';

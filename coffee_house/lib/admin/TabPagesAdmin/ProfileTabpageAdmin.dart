@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers, avoid_print, file_names, deprecated_member_use
-
-import 'package:coffee_house/admin/AllAdminScreen/LoginAdminScreen.dart';
 import 'package:coffee_house/admin/ConfigsAdmin.dart';
+import 'package:coffee_house/admin/ProfileAdminScreen/ControlClient.dart';
 import 'package:coffee_house/admin/ProfileAdminScreen/InformationUserPageAdmin.dart';
 import 'package:coffee_house/admin/ProfileAdminScreen/PurchaseHistoryPageAdmin.dart';
 import 'package:coffee_house/admin/ProfileAdminScreen/VoucherPageAdmin.dart';
@@ -83,42 +82,12 @@ class ProfileTabPageAdmin extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 7),//Quan li nhan vien
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => InformationAdminPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                onPrimary: Colors.black,
-                textStyle: TextStyle(fontSize: 18),
-                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Image.asset('images/farmer.png'),
-                  SizedBox(width: 16),
-                  Text(
-                    'Quản lý nhân viên',
-                    style: TextStyle(fontSize: 20,fontFamily: "Brand Bold"),
-                    textAlign: TextAlign.left,
-                  ),
-                ],
-              ),
-            ),
             SizedBox(height: 7),//Quan li khach hang
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => InformationAdminPage()),
+                  MaterialPageRoute(builder: (context) => ControlClientPage()),
                 );
               },
               style: ElevatedButton.styleFrom(
