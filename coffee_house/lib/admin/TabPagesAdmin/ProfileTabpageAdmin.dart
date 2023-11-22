@@ -3,6 +3,8 @@ import 'package:coffee_house/admin/ConfigsAdmin.dart';
 import 'package:coffee_house/admin/ProfileAdminScreen/ControlClient.dart';
 import 'package:coffee_house/admin/ProfileAdminScreen/InformationUserPageAdmin.dart';
 import 'package:coffee_house/admin/ProfileAdminScreen/PurchaseHistoryPageAdmin.dart';
+import 'package:coffee_house/admin/ProfileAdminScreen/SettingsPage.dart';
+import 'package:coffee_house/admin/ProfileAdminScreen/StatisticalPage.dart';
 import 'package:coffee_house/admin/ProfileAdminScreen/VoucherPageAdmin.dart';
 import 'package:coffee_house/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -175,7 +177,10 @@ class ProfileTabPageAdmin extends StatelessWidget {
             SizedBox(height: 7),//Thong ke
             ElevatedButton(
               onPressed: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SalesStatisticsPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
@@ -202,7 +207,10 @@ class ProfileTabPageAdmin extends StatelessWidget {
             SizedBox(height: 7),//Cai dat
             ElevatedButton(
               onPressed: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
