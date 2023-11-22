@@ -188,7 +188,6 @@ class _RegisterScreenState extends State<RegisterUserScreen> {
     })).user;
 
     if (firebaseUser != null) {
-      // Xử lý thành công, ví dụ: chuyển hướng tới màn hình tiếp theo
       usersRef.child(firebaseUser.uid);
       Map userDateMap = {
         "name": nameTextEdittingController.text.trim(),

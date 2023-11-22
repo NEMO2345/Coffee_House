@@ -1,13 +1,9 @@
 // ignore_for_file: prefer_const_constructors, file_names, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, deprecated_member_use, avoid_function_literals_in_foreach_calls
-
-import 'package:coffee_house/admin/AllAdminScreen/RegisterAdminScreen.dart';
 import 'package:coffee_house/main.dart';
 import 'package:coffee_house/user/AllUserScreen/MainUserScreen.dart';
-import 'package:coffee_house/user/MenuUserScreen/PopularUserPage.dart';
-import 'package:coffee_house/user/ModelsUser/Users-User.dart';
+import 'package:coffee_house/user/AllUserScreen/RegisterUserScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-
 import 'cartItems.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -16,7 +12,6 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-
   List<CartItem> cartItems = [];
   int totalQuantity = 0;
   int totalPrice = 0;
@@ -24,13 +19,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
   String phoneNumber = "";
   String name = "";
 
-
   @override
   void initState() {
     super.initState();
     fetchCartItems();
     fetchContactInfo();
   }
+
   Future<void> fetchContactInfo() async {
     try {
       DatabaseEvent event = await usersContact.once();
@@ -73,19 +68,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
       displayToastMessage("$error", context);
     }
   }
-  void handlePayment(){
-    sendOrderToAdmin();
-    displayToastMessage("Đặt đơn thành công!!", context);
-    Navigator.pushNamedAndRemoveUntil(context, MainUserScreen.idScreen, (route) => false);
+
+  void handlePayment() {
+    if (cartItems.isEmpty) {
+      displayToastMessage("Giỏ hàng của bạn đang trống!", context);
+    } else {
+      sendOrderToAdmin();
+      displayToastMessage("Đặt đơn thành công!!", context);
+      Navigator.pushNamedAndRemoveUntil(
+          context, MainUserScreen.idScreen, (route) => false);
+    }
   }
-  void sendOrderToAdmin()  {
+
+  void sendOrderToAdmin() {
     List<Map<String, dynamic>> orderList = [];
 
     cartItems.forEach((item) {
       Map<String, dynamic> productInfo = {
         'Tên sản phẩm': item.name,
         'Giá tiền': item.price,
-        'Số lượng':item.quantity,
+        'Số lượng': item.quantity,
       };
       orderList.add(productInfo);
     });
@@ -97,11 +99,38 @@ class _CheckoutPageState extends State<CheckoutPage> {
       'Thông tin sản phẩm': orderList,
     };
 
-    int totalAmount = cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
+    int totalAmount =
+    cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
     orderInfo['Tổng tiền'] = totalAmount;
-    adminOrder.set(orderInfo);
+    DatabaseReference newOrderRef = adminOrder.push();
+    newOrderRef.set(orderInfo);
     usersCartRef.remove();
   }
+
+  void xoaSanPhamKhoiGioHang(int index) {
+    setState(() {
+      totalQuantity -= cartItems[index].quantity;
+      totalPrice -= cartItems[index].price * cartItems[index].quantity;
+      cartItems.removeAt(index);
+    });
+  }
+  void tangSoLuongSanPham(int index) {
+    setState(() {
+      totalQuantity++;
+      totalPrice += cartItems[index].price;
+      CartItem updatedItem = cartItems[index].copyWith(quantity: cartItems[index].quantity + 1);
+      cartItems[index] = updatedItem;
+    });
+  }
+  void giamSoLuongSanPham(int index) {
+    setState(() {
+      totalQuantity--;
+      totalPrice -= cartItems[index].price;
+      CartItem updatedItem = cartItems[index].copyWith(quantity: cartItems[index].quantity - 1);
+      cartItems[index] = updatedItem;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,7 +176,25 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   leading: Image.network(image),
                   title: Text(name),
                   subtitle: Text('Giá: $price'),
-                  trailing: Text('Số lượng : $quantity'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: 10),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          xoaSanPhamKhoiGioHang(index);
+                        },
+                      ),
+                      Text('Số lượng: $quantity'),
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () {
+                          tangSoLuongSanPham(index);
+                        },
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
