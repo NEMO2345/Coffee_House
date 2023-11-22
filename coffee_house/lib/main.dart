@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, override_on_non_overriding_member, equal_keys_in_map, library_private_types_in_public_api, deprecated_member_use, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, override_on_non_overriding_member, equal_keys_in_map, library_private_types_in_public_api, deprecated_member_use, prefer_final_fields, non_constant_identifier_names
 
 import 'dart:async';
 import 'dart:io';
@@ -31,6 +31,7 @@ DatabaseReference ppsRef = FirebaseDatabase.instance.reference().child('product'
 DatabaseReference usersCartRef = FirebaseDatabase.instance.ref().child("users").child(currentfirebaseUser!.uid).child("cart");
 DatabaseReference usersContact = FirebaseDatabase.instance.ref().child("users").child(currentfirebaseUser!.uid).child("contactInfo");
 DatabaseReference adminOrder = FirebaseDatabase.instance.ref().child("Orders");
+DatabaseReference Order = FirebaseDatabase.instance.ref();
 
 final FirebaseStorage storage = FirebaseStorage.instance;
 

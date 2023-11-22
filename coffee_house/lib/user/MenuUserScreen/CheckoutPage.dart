@@ -2,6 +2,7 @@
 import 'package:coffee_house/main.dart';
 import 'package:coffee_house/user/AllUserScreen/MainUserScreen.dart';
 import 'package:coffee_house/user/AllUserScreen/RegisterUserScreen.dart';
+import 'package:coffee_house/user/ConfigsUser.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'cartItems.dart';
@@ -81,6 +82,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   void sendOrderToAdmin() {
+    String? orderId = Order.push().key;
     List<Map<String, dynamic>> orderList = [];
 
     cartItems.forEach((item) {
@@ -102,8 +104,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
     int totalAmount =
     cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
     orderInfo['Tổng tiền'] = totalAmount;
-    DatabaseReference newOrderRef = adminOrder.push();
-    newOrderRef.set(orderInfo);
+    DatabaseReference newOrderRef = adminOrder.child(orderId!);
+    DatabaseReference newOrderRefUser = usersRef.child(currentfirebaseUser!.uid).child("HistoryOrders").child(orderId!);
+     newOrderRef.set(orderInfo);
+     newOrderRefUser.set(orderInfo);
     usersCartRef.remove();
   }
 
