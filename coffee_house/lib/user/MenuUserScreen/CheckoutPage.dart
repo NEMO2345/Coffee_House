@@ -164,8 +164,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
           cartItems = items;
           totalQuantity = items.fold(0, (sum, item) => sum + item.quantity);
           totalPrice = calculatedTotalPrice;
-          print('2222 ${totalPrice + (totalPrice * discountPercent).toInt()}');
-          print('2222Số tiền sau khi giảm giá: $totalPrice VNĐ');
+          print(' ${totalPrice + (totalPrice * discountPercent).toInt()}');
+          print('Số tiền sau khi giảm giá: $totalPrice VNĐ');
         });
       }
     } catch (error) {
@@ -195,7 +195,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         discountPercent = selectedVoucherCard!.discount;
       });
     } else {
-      displayToastMessage("Invalid voucher code", context);
+      displayToastMessage("Không có sẵn voucher", context);
     }
   }
   void removeAppliedVoucher() {
@@ -314,7 +314,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     print('Selected voucher: $value');
                     setState(() {
                       selectedVoucher = value;
-                      isVoucherSelected = true; // Mark the voucher as selected
+                      isVoucherSelected = true;
                     });
                     applyDiscount(value);
                   }

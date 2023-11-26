@@ -7,7 +7,7 @@ class OrderItems {
   late double price;
   late int quantity;
   late double totalAmount;
-  
+
   OrderItems({
     required this.orderId,
     required this.customerName,

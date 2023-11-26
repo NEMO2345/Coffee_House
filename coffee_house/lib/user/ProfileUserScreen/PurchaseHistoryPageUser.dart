@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, file_names
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, file_names, avoid_print
 
 import 'package:coffee_house/OrderItems.dart';
 import 'package:coffee_house/user/ProfileUserScreen/HistoryItems.dart';
@@ -33,7 +33,6 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
             (snapshot.value as Map).forEach((orderId, orderData) {
               OrderItems orderItem = OrderItems.fromMap(orderData);
               orderHistory.add(orderItem);
-              print("hehehe");
               print(orderItem.productList);
             });
           } else if (snapshot.value is Iterable) {
