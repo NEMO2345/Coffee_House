@@ -80,7 +80,7 @@ class HistoryItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Tên sản phẩm: ${product["Tên sản phẩm"]}'),
-              Text('Giá tiền: ${product["Giá tiền"].toString()}'),
+              Text('Giá tiền: ${product["Giá"].toString()} VND'),
               Text('Số lượng: ${product["Số lượng"].toString()}'),
             ],
           ),
@@ -92,9 +92,9 @@ class HistoryItem extends StatelessWidget {
 
   Widget buildTotalAmount(double totalAmount) {
     return Text(
-      'Tổng tiền: ${totalAmount.toString()}',
+      'Tổng tiền: ${totalAmount.toString()} VND',
       style: TextStyle(
-        color: Colors.blue, // Thay đổi màu của tổng tiền
+        color: Colors.blue,
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),

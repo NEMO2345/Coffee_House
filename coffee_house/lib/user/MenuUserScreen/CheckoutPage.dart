@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_constructors, file_names, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, deprecated_member_use, avoid_function_literals_in_foreach_calls
+// ignore_for_file: prefer_const_constructors, file_names, use_key_in_widget_constructors, library_private_types_in_public_api, use_build_context_synchronously, deprecated_member_use, avoid_function_literals_in_foreach_calls, unnecessary_cast, unnecessary_null_comparison, avoid_print
+import 'package:coffee_house/VoucherCard.dart';
 import 'package:coffee_house/main.dart';
 import 'package:coffee_house/user/AllUserScreen/MainUserScreen.dart';
 import 'package:coffee_house/user/AllUserScreen/RegisterUserScreen.dart';
 import 'package:coffee_house/user/ConfigsUser.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'cartItems.dart';
 
 class CheckoutPage extends StatefulWidget {
@@ -19,14 +21,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
   String address = "";
   String phoneNumber = "";
   String name = "";
-
+  String selectedVoucher = "";
+  List<VoucherCard> vouchers = [];
+  double discountPercent = 0.0;
+  bool isVoucherSelected = false;
   @override
   void initState() {
     super.initState();
-    fetchCartItems();
-    fetchContactInfo();
+    fetchAllData();
   }
 
+  void fetchAllData() async {
+    await Future.wait([
+      fetchVouchers(),
+      fetchCartItems(),
+      fetchContactInfo(),
+    ]);
+    applyDiscount(selectedVoucher);
+  }
   Future<void> fetchContactInfo() async {
     try {
       DatabaseEvent event = await usersContact.once();
@@ -43,83 +55,80 @@ class _CheckoutPageState extends State<CheckoutPage> {
       displayToastMessage("$error", context);
     }
   }
-
-  Future<void> fetchCartItems() async {
+  Future<void> fetchVouchers() async {
     try {
-      DatabaseEvent event = await usersCartRef.once();
+      DatabaseEvent event = await usersRefVoucher.once();
       DataSnapshot snapshot = event.snapshot;
       var data = snapshot.value;
-      if (data != null) {
-        setState(() {
-          Map<dynamic, dynamic>? cartData = data as Map<dynamic, dynamic>?;
-          if (cartData != null) {
-            cartItems = cartData.entries.map((entry) {
-              return CartItem.fromMap(
-                  entry.key, entry.value as Map<dynamic, dynamic>);
-            }).toList();
+
+      if (data != null && data is Map<Object?, Object?>) {
+        vouchers = [];
+        data.forEach((key, value) {
+          if (value is Map<Object?, Object?>) {
+            vouchers.add(VoucherCard.fromMap(key.toString(), value));
+          } else {
+            print("Không có sản phẩm với Id = : $key");
           }
         });
-
-        cartItems.forEach((item) {
-          totalQuantity += item.quantity;
-          totalPrice += item.price * item.quantity;
-        });
+        print("Vouchers: $vouchers");
+        applyDiscount(selectedVoucher);
+      } else {
+        print("Voucher không có sẵn");
       }
     } catch (error) {
       displayToastMessage("$error", context);
+      print("$error");
     }
   }
-
   void handlePayment() {
     if (cartItems.isEmpty) {
-      displayToastMessage("Giỏ hàng của bạn đang trống!", context);
+      displayToastMessage("Giỏ hàng của bạn trống!", context);
     } else {
       sendOrderToAdmin();
-      displayToastMessage("Đặt đơn thành công!!", context);
+      removeAppliedVoucher();
+      displayToastMessage("Đặt hàng thành công!", context);
       Navigator.pushNamedAndRemoveUntil(
-          context, MainUserScreen.idScreen, (route) => false);
+        context,
+        MainUserScreen.idScreen,
+            (route) => false,
+      );
     }
   }
 
   void sendOrderToAdmin() {
     String? orderId = Order.push().key;
     List<Map<String, dynamic>> orderList = [];
-
     cartItems.forEach((item) {
       Map<String, dynamic> productInfo = {
         'Tên sản phẩm': item.name,
-        'Giá tiền': item.price,
+        'Giá': item.price,
         'Số lượng': item.quantity,
       };
       orderList.add(productInfo);
     });
-
     Map<String, dynamic> orderInfo = {
       'Tên khách hàng': name,
       'Số điện thoại': phoneNumber,
       'Địa chỉ': address,
       'Thông tin sản phẩm': orderList,
     };
-
-    int totalAmount =
-    cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
+    int totalAmount = cartItems.fold(0, (sum, item) => sum + (item.price * item.quantity));
     orderInfo['Tổng tiền'] = totalAmount;
 
     DatabaseReference newOrderRef = adminOrder.child(orderId!);
     DatabaseReference newOrderRefUser = usersRef.child(currentfirebaseUser!.uid).child("HistoryOrders").child(orderId);
-     newOrderRef.set(orderInfo);
-     newOrderRefUser.set(orderInfo);
+    newOrderRef.set(orderInfo);
+    newOrderRefUser.set(orderInfo);
     usersCartRef.remove();
   }
-
-  void xoaSanPhamKhoiGioHang(int index) {
+  void removeProductFromCart(int index) {
     setState(() {
       totalQuantity -= cartItems[index].quantity;
       totalPrice -= cartItems[index].price * cartItems[index].quantity;
       cartItems.removeAt(index);
     });
   }
-  void tangSoLuongSanPham(int index) {
+  void increaseProductQuantity(int index) {
     setState(() {
       totalQuantity++;
       totalPrice += cartItems[index].price;
@@ -127,7 +136,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       cartItems[index] = updatedItem;
     });
   }
-  void giamSoLuongSanPham(int index) {
+  void decreaseProductQuantity(int index) {
     setState(() {
       totalQuantity--;
       totalPrice -= cartItems[index].price;
@@ -135,7 +144,70 @@ class _CheckoutPageState extends State<CheckoutPage> {
       cartItems[index] = updatedItem;
     });
   }
+  Future<void> fetchCartItems() async {
+    try {
+      DatabaseEvent event = await usersCartRef.once();
+      DataSnapshot snapshot = event.snapshot;
+      var data = snapshot.value;
+      if (data != null) {
+        List<CartItem> items = [];
+        Map<dynamic, dynamic>? cartData = data as Map<dynamic, dynamic>?;
+        if (cartData != null) {
+          items = cartData.entries.map((entry) {
+            return CartItem.fromMap(entry.key, entry.value as Map<dynamic, dynamic>);
+          }).toList();
+        }
 
+        int calculatedTotalPrice = items.fold(0, (sum, item) => sum + (item.price * item.quantity));
+
+        setState(() {
+          cartItems = items;
+          totalQuantity = items.fold(0, (sum, item) => sum + item.quantity);
+          totalPrice = calculatedTotalPrice;
+          print('2222 ${totalPrice + (totalPrice * discountPercent).toInt()}');
+          print('2222Số tiền sau khi giảm giá: $totalPrice VNĐ');
+        });
+      }
+    } catch (error) {
+      displayToastMessage("$error", context);
+    }
+  }
+  void applyDiscount(String voucherCode) {
+    if (voucherCode.isEmpty) {
+      setState(() {
+        isVoucherSelected = false;
+        discountPercent = 0.0;
+      });
+      return;
+    }
+
+    VoucherCard? selectedVoucherCard;
+    for (var voucherCard in vouchers) {
+      if (voucherCard.code == voucherCode) {
+        selectedVoucherCard = voucherCard;
+        break;
+      }
+    }
+
+    if (selectedVoucherCard != null) {
+      setState(() {
+        isVoucherSelected = true;
+        discountPercent = selectedVoucherCard!.discount;
+      });
+    } else {
+      displayToastMessage("Invalid voucher code", context);
+    }
+  }
+  void removeAppliedVoucher() {
+    setState(() {
+      selectedVoucher = "";
+      isVoucherSelected = false;
+      discountPercent = 0.0;
+    });
+  }
+  void displayToastMessage(String message, BuildContext context) {
+    Fluttertoast.showToast(msg: message);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,7 +248,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 String name = cartItems[index].name;
                 int price = cartItems[index].price;
                 int quantity = cartItems[index].quantity;
-
                 return ListTile(
                   leading: Image.network(image),
                   title: Text(name),
@@ -188,14 +259,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          xoaSanPhamKhoiGioHang(index);
+                          removeProductFromCart(index);
                         },
                       ),
                       Text('Số lượng: $quantity'),
                       IconButton(
                         icon: Icon(Icons.add),
                         onPressed: () {
-                          tangSoLuongSanPham(index);
+                          increaseProductQuantity(index);
                         },
                       ),
                     ],
@@ -209,6 +280,51 @@ class _CheckoutPageState extends State<CheckoutPage> {
             thickness: 5.0,
           ),
           SizedBox(height: 20),
+          SizedBox(height: 20),
+          Text(
+            'Chọn mã giảm giá:',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (isVoucherSelected) {
+                displayToastMessage("Mã chỉ được chọn 1 lần duy nhất", context);
+                return;
+              }
+
+              if (vouchers.isNotEmpty) {
+                final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
+                final width = overlay.size.width;
+                final height = overlay.size.height;
+                final position = RelativeRect.fromLTRB(width / 4, height / 3, width / 4 * 3, height / 3 * 2);
+                showMenu(
+                  context: context,
+                  position: position,
+                  items: vouchers.map((voucher) {
+                    return PopupMenuItem<String>(
+                      value: voucher.code,
+                      child: Text('${voucher.code} - Giảm giá: ${voucher.discount}%'),
+                    );
+                  }).toList(),
+                ).then((value) {
+                  if (value != null) {
+                    print('Selected voucher: $value');
+                    setState(() {
+                      selectedVoucher = value;
+                      isVoucherSelected = true; // Mark the voucher as selected
+                    });
+                    applyDiscount(value);
+                  }
+                });
+              } else {
+                print("No vouchers available.");
+              }
+            },
+            child: Text('Chọn mã giảm giá'),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -248,6 +364,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ),
             ],
           ),
+          if (selectedVoucher.isNotEmpty)
+            Column(
+              children: [
+                Text('Mã giảm giá: $selectedVoucher'),
+                Text('Số tiền trước khi giảm giá: ${totalPrice + (totalPrice * discountPercent).toInt()}'),
+                Text('Số tiền sau khi giảm giá: $totalPrice VNĐ'),
+              ],
+            ),
           Text(
             'Tên :',
             style: TextStyle(

@@ -80,7 +80,7 @@ class HistoryItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Tên sản phẩm: ${product["Tên sản phẩm"]}'),
-              Text('Giá tiền: ${product["Giá tiền"].toString()} VND'),
+              Text('Giá tiền: ${product["Giá"].toString()} VND'),
               Text('Số lượng: ${product["Số lượng"].toString()}'),
             ],
           ),

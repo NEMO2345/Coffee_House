@@ -24,7 +24,6 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
   void getCurrentUserInfo() async {
     DatabaseReference historyRef =
     FirebaseDatabase.instance.ref().child('users').child(currentfirebaseUser!.uid).child('HistoryOrders');
-
     historyRef.onValue.listen((DatabaseEvent event) {
       DataSnapshot snapshot = event.snapshot;
       if (snapshot.value != null) {
@@ -34,6 +33,8 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
             (snapshot.value as Map).forEach((orderId, orderData) {
               OrderItems orderItem = OrderItems.fromMap(orderData);
               orderHistory.add(orderItem);
+              print("hehehe");
+              print(orderItem.productList);
             });
           } else if (snapshot.value is Iterable) {
             List<dynamic> orderItemsList = snapshot.value as List;
@@ -74,4 +75,3 @@ class _PurchaseHistoryPageState extends State<PurchaseHistoryPage> {
     );
   }
 }
-

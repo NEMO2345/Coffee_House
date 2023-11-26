@@ -27,7 +27,7 @@ class OrderItems {
       'Số điện thoại': phoneNumber,
       'Địa chỉ': address,
       'Thông tin sản phẩm': productList,
-      'Giá tiền': price,
+      'Giá': price,
       'Số lượng': quantity,
     };
   }
@@ -44,11 +44,9 @@ class OrderItems {
       productList: (map['Thông tin sản phẩm'] as List<dynamic>)
           .map((item) => Map<String, dynamic>.from(item))
           .toList(),
-      price: (map['Giá tiền'] ?? 0.0).toDouble(),
+      price: (map['Giá'] ?? 0.0).toDouble(),
       quantity: (map['Số lượng'] ?? 0).toInt(),
       totalAmount: (map['Tổng tiền'] ?? 0).toDouble(),
     );
   }
-
-
 }
