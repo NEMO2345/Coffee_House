@@ -1,19 +1,19 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, use_key_in_widget_constructors
 
-import 'package:coffee_house/admin/ProfileAdminScreen/InformationUserPageAdmin.dart';
+import 'package:coffee_house/user/ProfileUserScreen/InformationUserPageUser.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
 
-class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+class SettingsPageUser extends StatefulWidget {
+  const SettingsPageUser({Key? key}) : super(key: key);
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsPageState extends State<SettingsPageUser> {
   bool notificationEnabled = true;
   bool darkModeEnabled = false;
 
@@ -65,8 +65,8 @@ class _SettingsPageState extends State<SettingsPage> {
             Icon(Icons.arrow_forward_ios),
             onTap: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => InformationAdminPage())
+                  context,
+                  MaterialPageRoute(builder: (context) => InformationUserPage())
               );
             },
           ),

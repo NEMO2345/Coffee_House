@@ -6,6 +6,7 @@ import 'package:coffee_house/user/ConfigsUser.dart';
 import 'package:coffee_house/user/ProfileUserScreen/ContactAddressPage.dart';
 import 'package:coffee_house/user/ProfileUserScreen/InformationUserPageUser.dart';
 import 'package:coffee_house/user/ProfileUserScreen/PurchaseHistoryPageUser.dart';
+import 'package:coffee_house/user/ProfileUserScreen/SettingsPage.dart';
 import 'package:coffee_house/user/ProfileUserScreen/VoucherPageUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -177,7 +178,10 @@ class ProfileTabPageUser extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPageUser()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
