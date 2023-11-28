@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, prefer_const_constructors, library_private_types_in_public_api, file_names
+// ignore_for_file: library_private_types_in_public_api, avoid_print, prefer_const_constructors
 
 import 'package:coffee_house/OrderItems.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -21,15 +21,15 @@ class _SalesStatisticsPageState extends State<SalesStatisticsPage> {
     orderList = [];
     getOrders();
   }
-  Future<void> getOrders() async {
-    DatabaseReference orderRef = FirebaseDatabase.instance.ref().child("Orders");
 
+  Future<void> getOrders() async {
+    DatabaseReference orderRef =
+    FirebaseDatabase.instance.ref().child("Orders");
     DatabaseEvent event = await orderRef.once();
     DataSnapshot snapshot = event.snapshot;
 
     if (snapshot.value != null) {
       try {
-        // Use explicit null check before converting
         if (snapshot.value is Map<dynamic, dynamic>?) {
           Map<String, dynamic>? ordersMap =
           (snapshot.value as Map<dynamic, dynamic>?)?.cast<String, dynamic>();
@@ -39,18 +39,7 @@ class _SalesStatisticsPageState extends State<SalesStatisticsPage> {
 
             ordersMap.forEach((key, orderData) {
               try {
-                print('Order Data for key $key: $orderData');
-
-                // Convert data from Map to OrderItems object
-                OrderItems orderItem = OrderItems.fromMap({
-                  'orderId': key,
-                  'customerName': orderData['Tên khách hàng'] ?? '',
-                  'phoneNumber': orderData['Số điện thoại'] ?? '',
-                  'address': orderData['Địa chỉ'] ?? '',
-                  'productList': orderData['Thông tin sản phẩm'] ?? [],
-                  'totalAmount': orderData['Tổng tiền']?.toDouble() ?? 0.0,
-                });
-
+                OrderItems orderItem = OrderItems.fromMap(orderData);
                 updatedOrderList.add(orderItem);
               } catch (e) {
                 print('Unexpected data structure for key $key: $orderData');
@@ -126,6 +115,32 @@ class _SalesStatisticsPageState extends State<SalesStatisticsPage> {
                 ),
               ),
             ),
+            SizedBox(height: 16),
+            Text(
+              'Thống kê bán hàng theo sản phẩm',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 16),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: orderList.length,
+              itemBuilder: (context, index) {
+                OrderItems order = orderList[index];
+                return ListTile(
+                  title: Text('Sản phẩm: ${order.productList}'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Giá trị đơn hàng : ${order.totalAmount} VND'),
+                      Text('Khách hàng : ${order.customerName}'),
+                    ],
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -141,9 +156,6 @@ class _SalesStatisticsPageState extends State<SalesStatisticsPage> {
 
       spots.add(FlSpot(x, y));
     }
-
-    print('Order List: $orderList');
-    print('Spots: $spots');
 
     return spots;
   }
