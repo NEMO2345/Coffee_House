@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api, avoid_print, prefer_const_constructors
-
 import 'package:coffee_house/OrderItems.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +30,8 @@ class _SalesStatisticsPageState extends State<SalesStatisticsPage> {
       try {
         if (snapshot.value is Map<dynamic, dynamic>?) {
           Map<String, dynamic>? ordersMap =
-          (snapshot.value as Map<dynamic, dynamic>?)?.cast<String, dynamic>();
+          (snapshot.value as Map<dynamic, dynamic>?)
+              ?.cast<String, dynamic>();
 
           if (ordersMap != null) {
             List<OrderItems> updatedOrderList = [];
@@ -124,29 +123,30 @@ class _SalesStatisticsPageState extends State<SalesStatisticsPage> {
               ),
             ),
             SizedBox(height: 16),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: orderList.length,
-              itemBuilder: (context, index) {
-                OrderItems order = orderList[index];
-                return ListTile(
-                  title: Text('Sản phẩm: ${order.productList}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Giá trị đơn hàng : ${order.totalAmount} VND'),
-                      Text('Khách hàng : ${order.customerName}'),
-                    ],
-                  ),
-                );
-              },
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: orderList.length,
+                itemBuilder: (context, index) {
+                  OrderItems order = orderList[index];
+                  return ListTile(
+                    title: Text('Sản phẩm: ${order.productList}'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Giá trị đơn hàng : ${order.totalAmount} VND'),
+                        Text('Khách hàng : ${order.customerName}'),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
       ),
     );
   }
-
   List<FlSpot> getSpots() {
     List<FlSpot> spots = [];
 
